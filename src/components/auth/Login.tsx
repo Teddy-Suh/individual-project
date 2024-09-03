@@ -45,9 +45,8 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      const userCredential = await googleLogin();
-      const customUserCredential = userCredential as CustomUserCredential;
-      if (customUserCredential._tokenResponse?.isNewUser) {
+      const userCredential = (await googleLogin()) as CustomUserCredential;
+      if (userCredential._tokenResponse?.isNewUser) {
         console.log("구글 소셜 회원가입 성공", userCredential);
         await createUser(userCredential.user.uid);
         navigate("/nickname");

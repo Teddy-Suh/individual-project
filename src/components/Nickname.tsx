@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { updateNickname } from "../../firebase/user";
-import { AuthContext } from "../../context/AuthContext";
+import { updateNickname } from "../firebase/user";
+import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 
 interface NicknameFormInput {

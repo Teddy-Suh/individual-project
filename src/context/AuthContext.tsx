@@ -6,7 +6,7 @@ import {
   Dispatch,
 } from "react";
 import { User } from "firebase/auth";
-import { isLogIn } from "../firebase/auth";
+import { onAuthStateChange } from "../firebase/auth";
 import { getUser } from "../firebase/user";
 
 interface AuthState {
@@ -58,7 +58,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   useEffect(() => {
-    const unsubscribe = isLogIn(async (user) => {
+    const unsubscribe = onAuthStateChange(async (user) => {
       if (user) {
         const userData = await getUser(user.uid);
         dispatch({

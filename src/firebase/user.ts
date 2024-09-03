@@ -10,6 +10,7 @@ import {
   where,
 } from "firebase/firestore";
 
+// 유저 문서 생성
 const createUser = async (uid: string) => {
   await setDoc(doc(db, "users", uid), {
     nickname: "",
@@ -17,12 +18,13 @@ const createUser = async (uid: string) => {
   });
 };
 
+// 유저 문서 가져오기
 const getUser = async (uid: string) => {
   const user = await getDoc(doc(db, "users", uid));
   return user.data();
 };
 
-// 닉네임 변경하기
+// 닉네임 변경
 const updateNickname = async (uid: string, nickname: string) => {
   // 닉네임 중복 검사
   const q = query(collection(db, "users"), where("nickname", "==", nickname));

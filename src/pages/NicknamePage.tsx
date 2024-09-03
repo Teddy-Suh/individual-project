@@ -1,4 +1,4 @@
-import Nickname from "../components/auth/Nickname";
+import Nickname from "../components/Nickname";
 
 const NicknamePage = () => {
   return (

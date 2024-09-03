@@ -40,8 +40,8 @@ const logout = async () => {
 };
 
 // 로그인 상태 확인
-const isLogIn = (callback: (user: User | null) => void) => {
+const onAuthStateChange = (callback: (user: User | null) => void) => {
   return onAuthStateChanged(auth, callback);
 };
 
-export { localLogin, localSignup, googleLogin, logout, isLogIn };
+export { localLogin, localSignup, googleLogin, logout, onAuthStateChange };
