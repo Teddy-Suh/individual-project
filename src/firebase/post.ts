@@ -3,13 +3,37 @@ import {
   collection,
   deleteDoc,
   doc,
+  DocumentData,
   getDoc,
   getDocs,
+  limit,
+  orderBy,
+  query,
+  QueryDocumentSnapshot,
+  startAfter,
   Timestamp,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "./firebase";
 import { getUser } from "./user";
+
+interface PostListItem {
+  postId: string;
+  title: string;
+  createdAt: Date;
+  nickname: string;
+}
+
+type LastVisible = QueryDocumentSnapshot<DocumentData> | null;
+
+interface PostList {
+  postList: PostListItem[];
+  lastDoc: LastVisible;
+}
+
+interface GetPostList {
+  (lastVisible: LastVisible): Promise<PostList>;
+}
 
 // posts 컬렉션 참조
 const postsCollectionRef = collection(db, "posts");
@@ -44,10 +68,22 @@ const deletePost = async (postId: string) => {
   await deleteDoc(doc(db, "posts", postId));
 };
 
-// 게시글 목록 가져오기 (게시판)
-const getPosts = async () => {
-  const querySnapshot = await getDocs(postsCollectionRef);
-  const posts = await Promise.all(
+// 게시글 목록 가져오기 (페이지네이션)
+// lastVisible = null 자료혈 잘 넣기
+const getPostList: GetPostList = async (lastVisible) => {
+  const q = lastVisible
+    ? // 다음 페이지 가져오기 (lastVisible 있음)
+      query(
+        postsCollectionRef,
+        orderBy("createdAt", "desc"),
+        startAfter(lastVisible), // lastVisible 다음 문저부터 가져옴
+        limit(20)
+      )
+    : // 처음 페이지 가져오기 (lastVisible 없음)
+      query(postsCollectionRef, orderBy("createdAt", "desc"), limit(20));
+
+  const querySnapshot = await getDocs(q);
+  const postList = await Promise.all(
     querySnapshot.docs.map(async (doc) => {
       const postData = doc.data();
       const userData = await getUser(postData.uid);
@@ -59,7 +95,11 @@ const getPosts = async () => {
       };
     })
   );
-  return posts;
+
+  const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+  return { postList, lastDoc };
 };
 
-export { createPost, getPost, updatePost, deletePost, getPosts };
+export type { PostListItem, LastVisible };
+export { createPost, getPost, updatePost, deletePost, getPostList };
