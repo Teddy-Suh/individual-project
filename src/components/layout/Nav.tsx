@@ -8,7 +8,7 @@ const Nav = () => {
           <Link to="/">홈</Link>
         </li>
         <li style={{ marginRight: "20px" }}>
-          <Link to="/movie-info">영화 정보</Link>
+          <Link to="/vote">투표</Link>
         </li>
         <li style={{ marginRight: "20px" }}>
           <Link to="/board">게시판</Link>

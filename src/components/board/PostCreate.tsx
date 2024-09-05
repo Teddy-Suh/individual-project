@@ -1,60 +1,49 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  DecoupledEditor,
-  Bold,
-  Essentials,
-  Italic,
-  Paragraph,
-} from "ckeditor5";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import "ckeditor5/ckeditor5.css";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { createPost } from "../../firebase/post";
+import { useNavigate } from "react-router-dom";
 
-function PostCreate() {
-  const editorToolbarRef = useRef(null);
-  const [isMounted, setMounted] = useState(false);
+const PostCreate = () => {
+  const navigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
-  useEffect(() => {
-    setMounted(true);
+  const { state } = useContext(AuthContext);
+  const { user } = state;
 
-    return () => {
-      setMounted(false);
-    };
-  }, []);
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    try {
+      const postId = await createPost(user?.uid as string, title, content);
+      console.log("게시글 작성 성공");
+      navigate(`/board/${postId}`);
+    } catch (error) {
+      console.error("게시글 작성 실패:", error);
+    }
+  };
 
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <div>
-        {isMounted && (
-          <CKEditor
-            editor={DecoupledEditor}
-            data="<p>Hello from CKEditor 5 decoupled editor!</p>"
-            config={{
-              plugins: [Bold, Italic, Paragraph, Essentials],
-              toolbar: ["undo", "redo", "|", "bold", "italic"],
-            }}
-            onReady={(editor) => {
-              if (editorToolbarRef.current) {
-                editorToolbarRef.current.appendChild(
-                  editor.ui.view.toolbar.element
-                );
-              }
-            }}
-            onAfterDestroy={(editor) => {
-              if (editorToolbarRef.current) {
-                Array.from(editorToolbarRef.current.children).forEach((child) =>
-                  child.remove()
-                );
-              }
-            }}
-          />
-        )}
+        <input
+          type="text"
+          placeholder="제목을 입력하세요"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
       </div>
-      <div
-        ref={editorToolbarRef}
-        style={{ position: "fixed", bottom: "0", width: "100%" }}
-      />
-    </>
+      <div>
+        <textarea
+          placeholder="내용을 입력하세요"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+        />
+      </div>
+      <button type="submit">게시글 작성</button>
+    </form>
   );
-}
+};
 
 export default PostCreate;

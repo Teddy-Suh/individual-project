@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const MovieInfo = () => {
+const Vote = () => {
   const options = {
     method: "GET",
     url: "https://api.themoviedb.org/3/movie/now_playing",
@@ -16,7 +16,7 @@ const MovieInfo = () => {
     console.log(response.data);
   });
 
-  return <div>영화정보</div>;
+  return <div>다음주의 영화를 투표해보세요</div>;
 };
 
-export default MovieInfo;
+export default Vote;

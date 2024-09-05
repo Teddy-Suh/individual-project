@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import HomePage from "../pages/HomePage";
-import MovieInfoPage from "../pages/MovieInfoPage";
+import AboutPage from "../pages/AboutPage";
+import VotePage from "../pages/VotePage";
 import BoardPage from "../pages/BoardPage";
 import PostPage from "../pages/PostPage";
 import PostCreatePage from "../pages/PostCreatePage";
@@ -24,7 +25,8 @@ const Router = () => {
         // nav있는 페이지
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path="movie-info" element={<MovieInfoPage />} />
+          <Route path="About" element={<AboutPage />} />
+          <Route path="vote" element={<VotePage />} />
           <Route path="board" element={<BoardPage />} />
           <Route path="*" element={<ErrorPage />} />
           <Route element={<ProtectedRoute isVerified={false} />}>
