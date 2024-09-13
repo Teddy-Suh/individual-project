@@ -1,6 +1,7 @@
 # Project Name
 
 [Moveek](https://individual-project-cyan.vercel.app/)
+
 매주 단 하나의 영화를 선정하며 그에 대한 감상을 작성하고 댓글로 의견을 나누는 커뮤니티를 제공합니다.
 
 ## Installation
@@ -9,6 +10,14 @@
 2. cd individual-project
 3. npm install
 4. npm run dev
+
+## Device Emulation (갤럭시 S20 울트라)
+
+이 프로젝트는 **모바일 퍼스트**로 설계되었습니다. 개발자 도구(DevTools)에서 **Galaxy S20 Ultra** 해상도로 테스트해 주세요.
+
+1. 브라우저에서 **개발자 도구**를 열어주세요.
+2. **Ctrl + Shift + M** 또는 **Cmd + Shift + M**을 눌러 **디바이스 모드**로 전환합니다.
+3. 상단의 디바이스 목록에서 **갤럭시 S20 울트라**를 선택합니다.
 
 ## Project Doc
 
