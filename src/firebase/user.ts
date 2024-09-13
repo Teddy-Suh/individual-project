@@ -46,6 +46,7 @@ const updateRole = async (uid: string, role: string) => {
   });
 };
 
+// 회원가입 시 랜덤 닉네임 주기
 const generateRandomNickname = () => {
   const nickList = ["Nick", "nIck", "niCk", "nicK", "Nick", "nick"];
   const nameList = ["Name", "nAme", "naMe", "namE", "NAME", "name"];

@@ -1,3 +1,4 @@
+// selectedAt을 n월 n주차로 만드는 함수
 const getMonthAndWeek = (date: Date) => {
   const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
   const dayOfWeek = firstDayOfMonth.getDay();

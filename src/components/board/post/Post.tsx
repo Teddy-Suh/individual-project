@@ -19,11 +19,12 @@ const Post = () => {
         </div>
       ) : (
         <>
-          <div className="p-6 mb-6 rounded-lg bg-base-100">
-            <h2 className="mb-2 text-2xl font-bold text-primary">
-              {post.title}
-            </h2>
-            <span className="mb-2">{post.nickname}</span>
+          <div className="p-4 border-t-2 border-t-warning">
+            <h2 className="mb-2 text-xl font-bold">{post.title}</h2>
+            <div className="mb-2 text-end">
+              <span className="">{post.nickname} </span>
+              <span className="">{post.createdAt.toLocaleDateString()}</span>
+            </div>
             <div
               className="mb-2"
               dangerouslySetInnerHTML={{ __html: post.content }}

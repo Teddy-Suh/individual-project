@@ -81,6 +81,7 @@ const MyPage = () => {
         </div>
       </div>
 
+      {/* 관리자 메뉴 */}
       {role === "admin" && (
         <div className="mx-auto border-2 card w-96 border-secondary">
           <div className="card-body">

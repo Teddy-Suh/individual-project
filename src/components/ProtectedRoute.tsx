@@ -21,7 +21,7 @@ const ProtectedRoute = ({
     if (requireLogin && !state.user) {
       navigate("/login", { replace: true });
     }
-    // 인증 유저 아니면 인증 페이지로
+    // 인증 유저만 접근 가능 아니면 인증 페이지로 (채팅에서 쓸 예정)
     if (requireVerification && state.role !== "verifiedUser") {
       navigate("/mypage/verify", { replace: true });
     }

@@ -19,7 +19,7 @@ const PostLayout = () => {
 
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
-  const [post, setPost] = useState<ReturnPost | null>(null); // 작성일땐 제목, 내용만 있는걸로 초기화
+  const [post, setPost] = useState<ReturnPost | null>(null);
   const [isLoading, setIsLoading] = useState(!!postId); // 작성일땐 로딩 필요 없음
 
   const fetchPost = async (id: string) => {

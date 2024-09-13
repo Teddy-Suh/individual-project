@@ -44,10 +44,9 @@ interface DbSelectedMovie extends DbMovie {
 // 반환되는 이 주의 영화 데이터
 interface ReturnSelectedMovie
   extends Omit<DbSelectedMovie, "genres" | "selectedAt"> {
-  selectedMovieId: string; // Firestore 문서 ID 추가
+  selectedMovieId: string;
   genres: string[];
   selectedAt: {
-    // 변형된 selectedAt 값 (getMonthAndWeek 결과)
     month: number;
     week: number;
   };

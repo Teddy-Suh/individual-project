@@ -9,6 +9,7 @@ const Nav = () => {
   const handleMyPageClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!user) {
       e.preventDefault(); // ProtectedRoute로 로그인 페이지로 바로 리디렉션 하는거 방지
+      // 모달 띄우기
       const loginModal = document.getElementById("login_modal");
       (loginModal as HTMLDialogElement).showModal();
     }

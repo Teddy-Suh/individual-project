@@ -77,27 +77,29 @@ const Comment = ({ postId, uid, role }: CommentProps) => {
 
   return (
     <>
-      <div className="p-6 rounded-lg shadow-md bg-base-100">
-        <h4 className="mb-4 text-lg font-semibold text-primary">댓글</h4>
+      <div className="p-6">
+        <h4 className="mb-4 text-lg font-semibold text-accent">댓글</h4>
 
         {isLoading ? (
           <div className="flex justify-center">
             <span className="loading loading-bars loading-lg text-accent"></span>
           </div>
         ) : (
-          <ul className="space-y-4">
+          <ul className="space-y-4 ">
             {commentList.map((comment) => (
               <li
                 key={comment.commentId}
-                className="pb-4 border-b border-gray-200"
+                className="pb-4 border-b border-warning"
               >
-                <p className="font-bold">{comment.nickname}</p>
-                <p>{comment.content}</p>
-                <p>{comment.createdAt.toLocaleDateString()}</p>
+                <div className="flex">
+                  <p className="flex-1 pb-2 font-bold">{comment.nickname}</p>
+                  <p>{comment.createdAt.toLocaleDateString()}</p>
+                </div>
+                <div className="pb-2">{comment.content}</div>
                 {(comment.uid === uid || role === "admin") && (
-                  <div className="mt-2 space-x-2">
+                  <div className="flex justify-end space-x-2">
                     <button
-                      className="btn btn-sm btn-outline btn-primary"
+                      className="btn btn-sm btn-outline btn-warning"
                       onClick={() => handleClickEditComment(comment)}
                     >
                       수정
@@ -117,10 +119,11 @@ const Comment = ({ postId, uid, role }: CommentProps) => {
       </div>
 
       <div
-        className="p-6 mt-6 rounded-lg shadow-md bg-base-100"
+        className="fixed bottom-0 w-full max-w-md p-6 mt-6"
         onClick={handleCommentFormClick}
       >
         <form
+          className="flex"
           onSubmit={(e) => {
             e.preventDefault();
             if (isEditing) {
@@ -130,24 +133,24 @@ const Comment = ({ postId, uid, role }: CommentProps) => {
             }
           }}
         >
-          <div className="mb-4 form-control">
+          <div className="flex-1 form-control">
             <input
               type="text"
               placeholder="댓글을 입력해 주세요"
-              className="w-full input input-bordered"
+              className="w-full input input-bordered input-accent"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               required
             />
           </div>
-          <div className="space-x-2">
-            <button className="btn btn-primary">
+          <div className="flex-none">
+            <button className="ml-1 btn btn-accent btn-outline">
               {isEditing ? "수정" : "작성"}
             </button>
             {isEditing && (
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="ml-1 btn btn-error btn-outline"
                 onClick={handleCancelEdit}
               >
                 취소

@@ -99,7 +99,7 @@ const BoardSearch = () => {
 
   return (
     <>
-      <header>
+      <header className="p-4">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex w-full">
             <button

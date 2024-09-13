@@ -26,7 +26,9 @@ const Router = () => {
       <Modal />
 
       <Routes>
+        {/* 게시글 검색 */}
         <Route path="/board/search" element={<BoardSearchPage />} />
+
         {/* 게시글 레이아웃 */}
         <Route path="/board/post/" element={<PostLayout />}>
           <Route path=":postId" element={<PostPage />} />

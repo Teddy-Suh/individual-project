@@ -33,24 +33,22 @@ const BoardPostList = ({
             className="px-1 py-2 border-b-2 rounded-none border-b-warning card"
             onClick={() => handlePostClick(postHeader.postId)}
           >
-            <div className="p-2 card-body">
-              <div className="flex justify-between">
+            <div className="p-2">
+              <div className="flex justify-between mb-1">
                 <div className={`badge badge-${weekColor} badge-outline`}>
                   {postHeader.selectedAt?.month}월&nbsp;
-                  {postHeader.selectedAt?.week}주차&nbsp;-&nbsp;
+                  {postHeader.selectedAt?.week}주차&nbsp;
                   {postHeader.selectedMovieTitle}
                 </div>
                 <div className="text-sm">
                   {postHeader.createdAt.toLocaleDateString()}
                 </div>
               </div>
-              <div className="">
-                <div className="w-40 overflow-hidden text-sm card-title text-ellipsis whitespace-nowrap">
+              <div className="flex justify-between">
+                <div className="flex-none w-64 overflow-hidden text-sm text-ellipsis whitespace-nowrap">
                   {postHeader.title}
                 </div>
-                <div className="text-sm text-end whitespace-nowrap">
-                  {postHeader.nickname}
-                </div>
+                <div className="text-sm text-end">{postHeader.nickname}</div>
               </div>
             </div>
           </li>
