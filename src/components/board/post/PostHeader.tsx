@@ -1,14 +1,24 @@
 import { useLocation, useNavigate } from "react-router-dom";
 
+interface PostHeaderProps {
+  postId: string | undefined;
+  authorId: string | undefined;
+  uid: string | undefined;
+  role: string | null;
+  onCreate: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+}
+
 const PostHeader = ({
   postId,
   authorId,
-  user,
+  uid,
   role,
   onCreate,
   onEdit,
   onDelete,
-}) => {
+}: PostHeaderProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -111,7 +121,7 @@ const PostHeader = ({
       {/* 게시글 페이지일때 작성자면 수정/삭제 버튼을 표시 */}
       {!location.pathname.endsWith("/create") &&
         !location.pathname.endsWith("/edit") &&
-        (authorId === user?.uid || role === "admin") && (
+        (authorId === uid || role === "admin") && (
           <>
             <h1 className="flex-grow text-xl font-bold text-accent">Post</h1>
             <button

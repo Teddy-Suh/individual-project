@@ -6,13 +6,13 @@ import {
   updateComment,
 } from "../../../firebase/comment";
 
-// interface CommentProps {
-//   postId: string;
-//   user: any;
-//   role: string;
-// }
+interface CommentProps {
+  postId: string;
+  uid: string;
+  role: string;
+}
 
-const Comment = ({ postId, user, role }) => {
+const Comment = ({ postId, uid, role }: CommentProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [commentList, setCommentList] = useState([]);
   const [content, setContent] = useState("");
@@ -37,7 +37,7 @@ const Comment = ({ postId, user, role }) => {
   }, [postId, refreshCommentList]);
 
   const handleCreateComment = async () => {
-    await createComment(postId, user?.uid, content);
+    await createComment(postId, uid, content);
     setContent("");
     setRefreshCommentList((prev) => !prev);
   };
@@ -93,7 +93,7 @@ const Comment = ({ postId, user, role }) => {
                 <p className="font-bold">{comment.nickname}</p>
                 <p>{comment.content}</p>
                 <p>{comment.createdAt.toLocaleDateString()}</p>
-                {(comment.uid === user.uid || role === "admin") && (
+                {(comment.uid === uid || role === "admin") && (
                   <div className="mt-2 space-x-2">
                     <button
                       className="btn btn-sm btn-outline btn-primary"

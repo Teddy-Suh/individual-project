@@ -1,29 +1,31 @@
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, useEditor, Editor } from "@tiptap/react";
 import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
 import { useOutletContext } from "react-router-dom";
 import Underline from "@tiptap/extension-underline";
 
+interface PostContext {
+  postTitle: string;
+  postContent: string;
+  setPostTitle: (title: string) => void;
+  setPostContent: (content: string) => void;
+}
+
 const PostEditor = () => {
-  const { post, setPost } = useOutletContext();
+  const { postTitle, postContent, setPostTitle, setPostContent } =
+    useOutletContext<PostContext>();
 
   const editor = useEditor({
     extensions: [Color, TextStyle, StarterKit, Underline],
-    content: post?.content || "",
+    content: postContent,
     onUpdate: ({ editor }) => {
-      setPost((prevPost) => ({
-        ...prevPost,
-        content: editor.getHTML(),
-      }));
+      setPostContent(editor.getHTML());
     },
   });
 
-  const handleTitleChange = (e) => {
-    setPost((prevPost) => ({
-      ...prevPost,
-      title: e.target.value,
-    }));
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPostTitle(e.target.value);
   };
 
   return (
@@ -32,7 +34,7 @@ const PostEditor = () => {
         <input
           id="title"
           type="text"
-          value={post.title}
+          value={postTitle}
           onChange={handleTitleChange}
           placeholder="제목을 입력하세요"
           className="w-full input"
@@ -47,7 +49,7 @@ const PostEditor = () => {
   );
 };
 
-const MenuBar = ({ editor }) => {
+const MenuBar = ({ editor }: { editor: Editor | null }) => {
   if (!editor) {
     return null;
   }

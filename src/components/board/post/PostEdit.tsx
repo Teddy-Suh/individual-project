@@ -1,11 +1,7 @@
 import PostEditor from "./PostEditor";
 
 const PostEdit = () => {
-  return (
-    <div className="card">
-      <PostEditor />
-    </div>
-  );
+  return <PostEditor />;
 };
 
 export default PostEdit;

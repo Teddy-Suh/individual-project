@@ -1,8 +1,16 @@
 import { useOutletContext } from "react-router-dom";
 import Comment from "./Comment";
+import { ReturnPost } from "../../../firebase/post";
+
+interface PostContext {
+  post: ReturnPost;
+  uid: string;
+  role: string;
+  isLoading: boolean;
+}
 
 const Post = () => {
-  const { post, user, role, isLoading } = useOutletContext();
+  const { post, uid, role, isLoading } = useOutletContext<PostContext>();
   return (
     <>
       {isLoading ? (
@@ -22,7 +30,7 @@ const Post = () => {
             ></div>
           </div>
 
-          <Comment postId={post.postId} user={user} role={role} />
+          <Comment postId={post.postId} uid={uid} role={role} />
         </>
       )}
     </>
