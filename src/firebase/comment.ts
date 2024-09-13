@@ -13,6 +13,19 @@ import {
 import { db } from "./firebase";
 import { getUser } from "./user";
 
+interface DbComment {
+  postId: string;
+  uid: string;
+  content: string;
+  createdAt: Timestamp;
+}
+
+interface ReturnComment extends Omit<DbComment, "createdAt"> {
+  commentId: string;
+  createdAt: Date;
+  nickname: string;
+}
+
 const commentsCollectionRef = collection(db, "comments");
 
 // 댓글 작성
@@ -38,7 +51,7 @@ const deleteComment = async (commentId: string) => {
 };
 
 // 댓글 목록 가져오기
-const getCommentList = async (postId: string) => {
+const getCommentList = async (postId: string): Promise<ReturnComment[]> => {
   const q = query(
     commentsCollectionRef,
     where("postId", "==", postId),
@@ -51,7 +64,7 @@ const getCommentList = async (postId: string) => {
       const userData = await getUser(commentData.uid);
       return {
         commentId: doc.id,
-        ...commentData,
+        ...(commentData as DbComment),
         createdAt: commentData.createdAt.toDate(),
         nickname: userData?.nickname || "알 수 없는 계정",
       };
@@ -60,4 +73,5 @@ const getCommentList = async (postId: string) => {
   return commentList;
 };
 
+export type { DbComment, ReturnComment };
 export { createComment, updateComment, deleteComment, getCommentList };

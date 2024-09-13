@@ -3,6 +3,7 @@ import {
   createComment,
   deleteComment,
   getCommentList,
+  ReturnComment,
   updateComment,
 } from "../../../firebase/comment";
 
@@ -14,7 +15,7 @@ interface CommentProps {
 
 const Comment = ({ postId, uid, role }: CommentProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [commentList, setCommentList] = useState([]);
+  const [commentList, setCommentList] = useState<ReturnComment[]>([]);
   const [content, setContent] = useState("");
   const [refreshCommentList, setRefreshCommentList] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -42,7 +43,7 @@ const Comment = ({ postId, uid, role }: CommentProps) => {
     setRefreshCommentList((prev) => !prev);
   };
 
-  const handleClickEditComment = (comment) => {
+  const handleClickEditComment = (comment: ReturnComment) => {
     setIsEditing(true);
     setContent(comment.content);
     setEditCommentId(comment.commentId);
@@ -55,7 +56,7 @@ const Comment = ({ postId, uid, role }: CommentProps) => {
     setIsEditing(false);
   };
 
-  const handleDeleteComment = async (commentId) => {
+  const handleDeleteComment = async (commentId: string) => {
     await deleteComment(commentId);
     setRefreshCommentList((prev) => !prev);
   };
@@ -66,8 +67,8 @@ const Comment = ({ postId, uid, role }: CommentProps) => {
     setEditCommentId("");
   };
 
-  const handleCommentFormClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!user) {
+  const handleCommentFormClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!uid) {
       e.preventDefault(); // ProtectedRoute로 로그인 페이지로 바로 리디렉션 하는거 방지
       const loginModal = document.getElementById("login_modal");
       (loginModal as HTMLDialogElement).showModal();
