@@ -45,7 +45,7 @@ const BoardPostList = ({
                 </div>
               </div>
               <div className="flex justify-between">
-                <div className="flex-none w-64 overflow-hidden text-sm text-ellipsis whitespace-nowrap">
+                <div className="flex-none overflow-hidden text-sm w-80 text-ellipsis whitespace-nowrap">
                   {postHeader.title}
                 </div>
                 <div className="text-sm text-end">{postHeader.nickname}</div>
