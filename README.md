@@ -11,13 +11,13 @@
 3. npm install
 4. npm run dev
 
-## Device Emulation (갤럭시 S20 울트라)
+## Device Emulation (Galaxy S20 Ultra)
 
 이 프로젝트는 **모바일 퍼스트**로 설계되었습니다. 개발자 도구(DevTools)에서 **Galaxy S20 Ultra** 해상도로 테스트해 주세요.
 
 1. 브라우저에서 **개발자 도구**를 열어주세요.
 2. **Ctrl + Shift + M** 또는 **Cmd + Shift + M**을 눌러 **디바이스 모드**로 전환합니다.
-3. 상단의 디바이스 목록에서 **갤럭시 S20 울트라**를 선택합니다.
+3. 상단의 디바이스 목록에서 **Galaxy S20 Ultra**를 선택합니다.
 
 ## Project Doc
 
