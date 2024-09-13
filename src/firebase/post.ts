@@ -187,48 +187,9 @@ const getFilteredPostList: GetFilteredPostList = async (
 
   return { postList };
 };
-// const getPostList: GetPostList = async (lastVisible, keyword, movieTagId) => {
-//   let q = query(postsCollectionRef, orderBy("createdAt", "desc"), limit(10));
-
-//   // 페이지네이션 처리
-//   if (lastVisible) {
-//     q = query(q, startAfter(lastVisible));
-//   }
-
-//   // movieTagId 조건 추가
-//   if (movieTagId && movieTagId.trim() !== "") {
-//     q = query(q, where("selectedMovieId", "==", movieTagId));
-//   }
-
-//   // keyword 조건 추가
-//   if (keyword && keyword.trim() !== "") {
-//     q = query(q, where("keywords", "array-contains", keyword.toLowerCase()));
-//   }
-
-//   const querySnapshot = await getDocs(q);
-
-//   const postList = await Promise.all(
-//     querySnapshot.docs.map(async (doc) => {
-//       const postData = doc.data();
-//       const userData = await getUser(postData.uid);
-//       return {
-//         postId: doc.id,
-//         selectedMovieId: postData.selectedMovieId,
-//         selectedAt: postData.selectedAt,
-//         selectedMovieTitle: postData.selectedMovieTitle,
-//         title: postData.title,
-//         createdAt: postData.createdAt.toDate(),
-//         nickname: userData?.nickname || "알 수 없는 계정",
-//       };
-//     })
-//   );
-
-//   const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
-
-//   return { postList, lastDoc };
-// };
 
 export type { PostListItem, LastVisible };
+
 export {
   createPost,
   getPost,
