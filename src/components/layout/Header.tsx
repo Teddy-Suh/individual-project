@@ -44,10 +44,11 @@ const Header = () => {
     setPathColor(getPathColor(location.pathname));
   }, [location.pathname]);
 
-  const handleCreateClick = (e) => {
+  const handleCreateClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!user) {
-      e.preventDefault(); // 로그인 안 되어 있을 때 기본 링크 동작 막기
-      document.getElementById("login_modal").showModal(); // 모달 띄우기
+      e.preventDefault(); // ProtectedRoute로 로그인 페이지로 바로 리디렉션 하는거 방지
+      const loginModal = document.getElementById("login_modal");
+      (loginModal as HTMLDialogElement).showModal();
     }
   };
 

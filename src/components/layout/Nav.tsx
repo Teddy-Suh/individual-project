@@ -6,10 +6,11 @@ const Nav = () => {
   const { state } = useContext(AuthContext);
   const { user } = state;
 
-  const handleMyPageClick = (e) => {
+  const handleMyPageClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!user) {
-      e.preventDefault();
-      document.getElementById("login_modal").showModal();
+      e.preventDefault(); // ProtectedRoute로 로그인 페이지로 바로 리디렉션 하는거 방지
+      const loginModal = document.getElementById("login_modal");
+      (loginModal as HTMLDialogElement).showModal();
     }
   };
 
