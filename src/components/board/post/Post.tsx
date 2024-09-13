@@ -29,7 +29,6 @@ const Post = () => {
               dangerouslySetInnerHTML={{ __html: post.content }}
             ></div>
           </div>
-
           <Comment postId={post.postId} uid={uid} role={role} />
         </>
       )}

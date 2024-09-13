@@ -29,7 +29,7 @@ const PostEditor = () => {
   };
 
   return (
-    <div>
+    <>
       <div className="mb-4">
         <input
           id="title"
@@ -45,7 +45,7 @@ const PostEditor = () => {
         className="w-full p-4 border-t-2 border-t-accent"
       />
       <MenuBar editor={editor} />
-    </div>
+    </>
   );
 };
 
