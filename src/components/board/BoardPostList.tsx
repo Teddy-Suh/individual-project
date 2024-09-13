@@ -1,16 +1,19 @@
-import { PostListItem } from "../../firebase/post";
+import { PostHeader } from "../../firebase/post";
 
 interface BoardPostListProps {
-  postList: PostListItem[];
+  postHeaders: PostHeader[];
   handlePostClick: (postId: string) => void;
 }
 
-const BoardPostList = ({ postList, handlePostClick }: BoardPostListProps) => {
+const BoardPostList = ({
+  postHeaders,
+  handlePostClick,
+}: BoardPostListProps) => {
   return (
     <ul className="p-0 m-0 list-none border-t-2 border-t-warning">
-      {postList.map((postListItem) => {
+      {postHeaders.map((postHeader) => {
         const weekColor = (() => {
-          switch (postListItem.selectedAt?.week) {
+          switch (postHeader.selectedAt.week) {
             case 1:
               return "error";
             case 2:
@@ -26,27 +29,27 @@ const BoardPostList = ({ postList, handlePostClick }: BoardPostListProps) => {
 
         return (
           <li
-            key={postListItem.postId}
+            key={postHeader.postId}
             className="px-1 py-2 border-b-2 rounded-none border-b-warning card"
-            onClick={() => handlePostClick(postListItem.postId)}
+            onClick={() => handlePostClick(postHeader.postId)}
           >
             <div className="p-2 card-body">
               <div className="flex justify-between">
                 <div className={`badge badge-${weekColor} badge-outline`}>
-                  {postListItem.selectedAt?.month}월&nbsp;
-                  {postListItem.selectedAt?.week}주차&nbsp;-&nbsp;
-                  {postListItem.selectedMovieTitle}
+                  {postHeader.selectedAt?.month}월&nbsp;
+                  {postHeader.selectedAt?.week}주차&nbsp;-&nbsp;
+                  {postHeader.selectedMovieTitle}
                 </div>
                 <div className="text-sm">
-                  {postListItem.createdAt.toLocaleDateString()}
+                  {postHeader.createdAt.toLocaleDateString()}
                 </div>
               </div>
               <div className="">
                 <div className="w-40 overflow-hidden text-sm card-title text-ellipsis whitespace-nowrap">
-                  {postListItem.title}
+                  {postHeader.title}
                 </div>
                 <div className="text-sm text-end whitespace-nowrap">
-                  {postListItem.nickname}
+                  {postHeader.nickname}
                 </div>
               </div>
             </div>

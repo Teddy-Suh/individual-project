@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { getFilteredPostList, PostListItem } from "../../firebase/post";
+import { getFilteredPostHeaders, PostHeader } from "../../firebase/post";
 import BoardPostList from "./BoardPostList";
 import { useForm } from "react-hook-form";
 import { getSelectedMovies, ReturnSelectedMovie } from "../../firebase/movie";
@@ -21,7 +21,7 @@ const BoardSearch = () => {
     title: string;
   }>({ id: "", title: "" });
   const { register, handleSubmit, setValue } = useForm<SearchForm>();
-  const [postList, setPostList] = useState<PostListItem[]>([]);
+  const [postList, setPostList] = useState<PostHeader[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isInitial, setIsInitial] = useState(true);
   const [isEmpty, setIsEmpty] = useState(false);
@@ -58,9 +58,9 @@ const BoardSearch = () => {
   const fetchFilteredPosts = async (keyword: string, movieTagId: string) => {
     setIsLoading(true);
     try {
-      const result = await getFilteredPostList(keyword, movieTagId);
-      setPostList(result.postList);
-      setIsEmpty(result.postList.length === 0);
+      const result = await getFilteredPostHeaders(keyword, movieTagId);
+      setPostList(result.postHeaders);
+      setIsEmpty(result.postHeaders.length === 0);
     } catch (error) {
       console.error("게시글 목록 불러오기 실패", error);
     } finally {
@@ -222,7 +222,7 @@ const BoardSearch = () => {
               <p className="text-center text-accent">검색 결과가 없습니다.</p>
             ) : (
               <BoardPostList
-                postList={postList}
+                postHeaders={postList}
                 handlePostClick={handlePostClick}
               />
             )}

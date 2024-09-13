@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState, useRef } from "react";
-import { getPostList, LastVisible, PostListItem } from "../../firebase/post";
+import { getPostHeaders, LastVisible, PostHeader } from "../../firebase/post";
 import { useNavigate } from "react-router-dom";
 import BoardPostList from "./BoardPostList";
 
 const Board = () => {
-  const [postList, setPostList] = useState<PostListItem[]>([]);
+  const [postList, setPostList] = useState<PostHeader[]>([]);
   const [lastVisible, setLastVisible] = useState<LastVisible>(null);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +14,9 @@ const Board = () => {
   const fetchPosts = useCallback(async () => {
     setIsLoading(true);
     try {
-      const { postList: newPostList, lastDoc } = await getPostList(lastVisible);
+      const { postHeaders: newPostList, lastDoc } = await getPostHeaders(
+        lastVisible
+      );
       setPostList((prevPostList) => [...prevPostList, ...newPostList]);
       setLastVisible(lastDoc);
 
@@ -53,7 +55,10 @@ const Board = () => {
   return (
     <>
       <div>
-        <BoardPostList postList={postList} handlePostClick={handlePostClick} />
+        <BoardPostList
+          postHeaders={postList}
+          handlePostClick={handlePostClick}
+        />
 
         <div ref={observerRef} className="my-6">
           {hasMore ? (

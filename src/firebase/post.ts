@@ -19,8 +19,12 @@ import { db } from "./firebase";
 import { getUser } from "./user";
 import { getLatestSelectedMovie } from "./movie";
 
-interface PostListItem {
+// 게시글 목록에서 보여줄 PostHeader
+interface PostHeader {
   postId: string;
+  selectedMovieId: string;
+  selectedAt: { month: number; week: number };
+  selectedMovieTitle: string;
   title: string;
   createdAt: Date;
   nickname: string;
@@ -28,31 +32,26 @@ interface PostListItem {
 
 type LastVisible = QueryDocumentSnapshot<DocumentData> | null;
 
-interface PostList {
-  postList: PostListItem[];
+interface PostHeaders {
+  postHeaders: PostHeader[];
   lastDoc: LastVisible;
 }
 
-interface GetPostList {
-  (
-    lastVisible: LastVisible,
-    keyword?: string,
-    movieTagId?: string
-  ): Promise<PostList>;
+interface GetPostHeaders {
+  (lastVisible: LastVisible): Promise<PostHeaders>;
 }
 
-interface GetFilteredPostList {
+interface GetFilteredPostHeaders {
   (keyword?: string, movieTagId?: string): Promise<{
-    postList: PostListItem[];
+    postHeaders: PostHeader[];
   }>;
 }
 
 // posts 컬렉션 참조
 const postsCollectionRef = collection(db, "posts");
 
-// 게시글 검색을 위해 kwerod필드 만듬
-
 // tiptap으로 작성한 content에 태그들 제거하는 함수
+// 게시글 검색을 위해 만든 kwerods필드에 넣기 전에 태그 제거
 const removeHTMLTags = (content: string) => {
   const div = document.createElement("div");
   div.innerHTML = content;
@@ -125,7 +124,7 @@ const deletePost = async (postId: string) => {
 };
 
 // 게시글 목록 가져오기 (페이지네이션)
-const getPostList: GetPostList = async (lastVisible) => {
+const getPostHeaders: GetPostHeaders = async (lastVisible) => {
   let q = query(postsCollectionRef, orderBy("createdAt", "desc"), limit(12));
 
   // 페이지네이션 처리
@@ -135,7 +134,7 @@ const getPostList: GetPostList = async (lastVisible) => {
 
   const querySnapshot = await getDocs(q);
 
-  const postList = await Promise.all(
+  const postHeaders = await Promise.all(
     querySnapshot.docs.map(async (doc) => {
       const postData = doc.data();
       const userData = await getUser(postData.uid);
@@ -153,10 +152,10 @@ const getPostList: GetPostList = async (lastVisible) => {
 
   const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
 
-  return { postList, lastDoc };
+  return { postHeaders, lastDoc };
 };
 
-const getFilteredPostList: GetFilteredPostList = async (
+const getFilteredPostHeaders: GetFilteredPostHeaders = async (
   keyword,
   movieTagId
 ) => {
@@ -172,7 +171,7 @@ const getFilteredPostList: GetFilteredPostList = async (
 
   const querySnapshot = await getDocs(q);
 
-  const postList = await Promise.all(
+  const postHeaders = await Promise.all(
     querySnapshot.docs.map(async (doc) => {
       const postData = doc.data();
       const userData = await getUser(postData.uid);
@@ -188,16 +187,22 @@ const getFilteredPostList: GetFilteredPostList = async (
     })
   );
 
-  return { postList };
+  return { postHeaders };
 };
 
-export type { PostListItem, LastVisible };
+export type {
+  PostHeader,
+  PostHeaders,
+  LastVisible,
+  GetPostHeaders,
+  GetFilteredPostHeaders,
+};
 
 export {
   createPost,
   getPost,
   updatePost,
   deletePost,
-  getPostList,
-  getFilteredPostList,
+  getPostHeaders,
+  getFilteredPostHeaders,
 };
