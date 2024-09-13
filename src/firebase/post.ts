@@ -19,6 +19,23 @@ import { db } from "./firebase";
 import { getUser } from "./user";
 import { getLatestSelectedMovie } from "./movie";
 
+interface DbPost {
+  content: string;
+  createdAt: Timestamp;
+  keywords: string[];
+  selectedAt: { month: number; week: number };
+  selectedMovieId: string;
+  selectedMovieTitle: string;
+  title: string;
+  uid: string;
+}
+
+interface ReturnPost extends Omit<DbPost, "createdAt"> {
+  postId: string;
+  nickname: string;
+  createdAt: Date;
+}
+
 // 게시글 목록에서 보여줄 PostHeader
 interface PostHeader {
   postId: string;
@@ -59,7 +76,11 @@ const removeHTMLTags = (content: string) => {
 };
 
 // 게시글 작성
-const createPost = async (uid: string, title: string, content: string) => {
+const createPost = async (
+  uid: string,
+  title: string,
+  content: string
+): Promise<string> => {
   const cleanContent = removeHTMLTags(content);
   const keywords = [
     ...new Set([
@@ -83,14 +104,14 @@ const createPost = async (uid: string, title: string, content: string) => {
 };
 
 // 게시글 가져오기
-const getPost = async (postId: string) => {
+const getPost = async (postId: string): Promise<ReturnPost> => {
   const postDoc = await getDoc(doc(db, "posts", postId));
-  const postData = postDoc.data();
 
-  if (!postData) {
-    throw new Error("게시글이 없습니다.");
+  if (!postDoc.exists()) {
+    throw new Error("게시글을 찾을 수 없습니다.");
   }
 
+  const postData = postDoc.data() as DbPost;
   const userData = await getUser(postData.uid);
   return {
     postId,
@@ -191,6 +212,8 @@ const getFilteredPostHeaders: GetFilteredPostHeaders = async (
 };
 
 export type {
+  DbPost,
+  ReturnPost,
   PostHeader,
   PostHeaders,
   LastVisible,

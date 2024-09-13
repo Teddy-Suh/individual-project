@@ -6,6 +6,12 @@ import {
   updateComment,
 } from "../../../firebase/comment";
 
+// interface CommentProps {
+//   postId: string;
+//   user: any;
+//   role: string;
+// }
+
 const Comment = ({ postId, user, role }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [commentList, setCommentList] = useState([]);
@@ -59,9 +65,12 @@ const Comment = ({ postId, user, role }) => {
     setContent("");
     setEditCommentId("");
   };
-  const handleCommentFormClick = (e) => {
+
+  const handleCommentFormClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!user) {
-      document.getElementById("login_modal").showModal();
+      e.preventDefault(); // ProtectedRoute로 로그인 페이지로 바로 리디렉션 하는거 방지
+      const loginModal = document.getElementById("login_modal");
+      (loginModal as HTMLDialogElement).showModal();
     }
   };
 
