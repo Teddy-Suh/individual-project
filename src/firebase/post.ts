@@ -87,12 +87,17 @@ const createPost = async (uid: string, title: string, content: string) => {
 const getPost = async (postId: string) => {
   const postDoc = await getDoc(doc(db, "posts", postId));
   const postData = postDoc.data();
+
+  if (!postData) {
+    throw new Error("게시글이 없습니다.");
+  }
+
   const userData = await getUser(postData.uid);
   return {
     postId,
     ...postData,
     createdAt: postData.createdAt.toDate(),
-    nickname: userData.nickname,
+    nickname: userData?.nickname || "알 수 없는 사용자",
   };
 };
 
@@ -157,12 +162,10 @@ const getFilteredPostList: GetFilteredPostList = async (
 ) => {
   let q = query(postsCollectionRef, orderBy("createdAt", "desc"));
 
-  // movieTagId 조건 추가
-  if (movieTagId && movieTagId.trim() !== "") {
+  if (movieTagId !== "") {
     q = query(q, where("selectedMovieId", "==", movieTagId));
   }
 
-  // keyword 조건 추가
   if (keyword && keyword.trim() !== "") {
     q = query(q, where("keywords", "array-contains", keyword.toLowerCase()));
   }

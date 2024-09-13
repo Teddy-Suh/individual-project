@@ -140,12 +140,15 @@ const getLatestSelectedMovie = async (): Promise<ReturnSelectedMovie> => {
 const getSelectedMovies = async () => {
   const selectedMoviesSnapshot = await getDocs(selectedMoviesRef);
   const selectedMovies = selectedMoviesSnapshot.docs.map((doc) => {
-    const data = doc.data() as DbSelectedMovie;
-
+    const selectedMoviesData = doc.data() as DbSelectedMovie;
+    const genreNames = selectedMoviesData.genre_ids.map((id: number) => {
+      return genres[id] || "알 수 없음";
+    });
     return {
       selectedMovieId: doc.id,
-      ...data,
-      selectedAt: getMonthAndWeek(data.selectedAt.toDate()),
+      ...selectedMoviesData,
+      genres: genreNames,
+      selectedAt: getMonthAndWeek(selectedMoviesData.selectedAt.toDate()),
     };
   });
   return selectedMovies;

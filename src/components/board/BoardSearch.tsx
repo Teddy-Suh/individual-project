@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { getFilteredPostList, PostListItem } from "../../firebase/post";
 import BoardPostList from "./BoardPostList";
 import { useForm } from "react-hook-form";
-import { getSelectedMovies } from "../../firebase/movie";
+import { getSelectedMovies, ReturnSelectedMovie } from "../../firebase/movie";
 
 interface SearchForm {
   keyword: string;
@@ -13,7 +13,9 @@ interface SearchForm {
 const BoardSearch = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [selectedMovieList, setSelectedMovieList] = useState([]);
+  const [selectedMovieList, setSelectedMovieList] = useState<
+    ReturnSelectedMovie[]
+  >([]);
   const [movieTag, setMovieTag] = useState<{
     id: string;
     title: string;
@@ -29,6 +31,7 @@ const BoardSearch = () => {
     const fetchSelectedMovieList = async () => {
       const movieList = await getSelectedMovies();
       setSelectedMovieList(movieList);
+      console.log(movieList);
     };
     fetchSelectedMovieList();
   }, []);
