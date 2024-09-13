@@ -1,5 +1,5 @@
 const Verify = () => {
-  return <input type="text" />;
+  return <div>준비중</div>;
 };
 
 export default Verify;

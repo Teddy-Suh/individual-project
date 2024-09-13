@@ -12,8 +12,9 @@ import {
 
 // 유저 문서 생성
 const createUser = async (uid: string) => {
+  const randomNickname = generateRandomNickname();
   await setDoc(doc(db, "users", uid), {
-    nickname: "",
+    nickname: randomNickname,
     role: "user",
   });
 };
@@ -43,6 +44,18 @@ const updateRole = async (uid: string, role: string) => {
   await updateDoc(doc(db, "users", uid), {
     role: role,
   });
+};
+
+const generateRandomNickname = () => {
+  const nickList = ["Nick", "nIck", "niCk", "nicK", "Nick", "nick"];
+  const nameList = ["Name", "nAme", "naMe", "namE", "NAME", "name"];
+
+  const nick = nickList[Math.floor(Math.random() * nickList.length)];
+  const name = nameList[Math.floor(Math.random() * nameList.length)];
+
+  const number = Math.floor(Math.random() * 90) + 10;
+
+  return `${nick}${name}${number}`;
 };
 
 export { createUser, getUser, updateNickname, updateRole };

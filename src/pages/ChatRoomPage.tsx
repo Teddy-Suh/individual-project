@@ -1,5 +1,7 @@
+import ChatRoom from "../components/chat/ChatRoom";
+
 const ChatRoomPage = () => {
-  return <h1>채팅방</h1>;
+  return <ChatRoom />;
 };
 
 export default ChatRoomPage;

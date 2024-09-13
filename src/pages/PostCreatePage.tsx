@@ -1,4 +1,4 @@
-import PostCreate from "../components/board/PostCreate";
+import PostCreate from "../components/board/post/PostCreate";
 
 const PostCreatePage = () => {
   return <PostCreate />;

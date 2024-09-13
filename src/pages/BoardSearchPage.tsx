@@ -1,9 +1,7 @@
+import BoardSearch from "../components/board/BoardSearch";
+
 const BoardSearchPage = () => {
-  return (
-    <>
-      <h1>게시글 검색</h1>
-    </>
-  );
+  return <BoardSearch />;
 };
 
 export default BoardSearchPage;

@@ -1,12 +1,7 @@
-import Post from "../components/board/Post";
+import Post from "../components/board/post/Post";
 
 const PostPage = () => {
-  return (
-    <>
-      <h1>게시글</h1>
-      <Post />
-    </>
-  );
+  return <Post />;
 };
 
 export default PostPage;

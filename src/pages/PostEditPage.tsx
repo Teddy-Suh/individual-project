@@ -1,5 +1,7 @@
+import PostEdit from "../components/board/post/PostEdit";
+
 const PostEditPage = () => {
-  return <h1>게시글 수정</h1>;
+  return <PostEdit />;
 };
 
 export default PostEditPage;

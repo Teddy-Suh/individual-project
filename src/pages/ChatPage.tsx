@@ -1,9 +1,7 @@
+import Chat from "../components/chat/Chat";
+
 const ChatPage = () => {
-  return (
-    <>
-      <h1>채팅방</h1>
-    </>
-  );
+  return <Chat />;
 };
 
 export default ChatPage;
